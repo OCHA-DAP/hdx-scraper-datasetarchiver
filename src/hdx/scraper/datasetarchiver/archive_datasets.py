@@ -1,7 +1,6 @@
 import logging
 
 from dateutil.relativedelta import relativedelta
-
 from hdx.data.dataset import Dataset
 from hdx.utilities.dateparse import parse_date
 

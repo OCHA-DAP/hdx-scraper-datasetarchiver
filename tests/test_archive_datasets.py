@@ -2,11 +2,11 @@ from collections import UserDict
 from os.path import join
 
 import pytest
-
 from hdx.api.configuration import Configuration
-from hdx.scraper.datasetarchiver.archive_datasets import archive
 from hdx.utilities.dateparse import parse_date
 from hdx.utilities.useragent import UserAgent
+
+from hdx.scraper.datasetarchiver.archive_datasets import archive
 
 
 class CutDownDataset(UserDict):
