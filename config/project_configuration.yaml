@@ -10,7 +10,7 @@ orgs:
       last_modified:
         months: 6
   philsa:
-    data_update_frequency: "-1"
+    data_update_frequency: "-2"
     before:
       last_modified:
         months: 6
