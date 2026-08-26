@@ -51,6 +51,30 @@ class TestDataset:
                     "archived": False,
                 },
             ]
+        elif "philsa" in fq:
+            datasets = [
+                {
+                    "name": "philsa-test-recent",
+                    "title": "philsa test recent",
+                    "last_modified": "2023-10-10T00:00:00",
+                    "data_update_frequency": "-2",
+                    "archived": False,
+                },
+                {
+                    "name": "philsa-test-should_archive",
+                    "title": "philsa test old",
+                    "last_modified": "2023-04-11T00:00:00",
+                    "data_update_frequency": "-2",
+                    "archived": False,
+                },
+                {
+                    "name": "philsa-test-should_not_archive",
+                    "title": "philsa test frequency mismatch",
+                    "last_modified": "2023-04-11T00:00:00",
+                    "data_update_frequency": "-1",
+                    "archived": False,
+                },
+            ]
         else:
             datasets = [
                 {
@@ -98,10 +122,7 @@ class TestDatasetArchiver:
         for dataset in archived:
             assert "should_archive" in dataset["name"]
         for dataset in not_archived:
-            update_frequency = dataset["data_update_frequency"]
-            if update_frequency == "-1":
-                assert "recent" in dataset["name"]
-            else:
-                assert "should_not_archive" in dataset["name"]
+            name = dataset["name"]
+            assert "recent" in name or "should_not_archive" in name
         for dataset in already_archived:
             assert "already_archived" in dataset["name"]

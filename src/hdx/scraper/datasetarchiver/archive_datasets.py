@@ -8,10 +8,13 @@ logger = logging.getLogger(__name__)
 
 
 def archive(configuration, today, DatasetCls=Dataset):
+    already_archived = []
+    not_archived = []
+    archived = []
     for org_name, fields_to_match in configuration["orgs"].items():
-        already_archived = []
-        not_archived = []
-        archived = []
+        org_already_archived = []
+        org_not_archived = []
+        org_archived = []
         logger.info(f"Organisation: {org_name}\n")
         for name in fields_to_match:
             if name == "before":
@@ -22,7 +25,7 @@ def archive(configuration, today, DatasetCls=Dataset):
         datasets = DatasetCls.search_in_hdx(fq=f"organization:{org_name}")
         for dataset in datasets:
             if dataset["archived"]:
-                already_archived.append(dataset)
+                org_already_archived.append(dataset)
                 continue
             match = True
             for field_name, match_value in fields_to_match.items():
@@ -50,10 +53,15 @@ def archive(configuration, today, DatasetCls=Dataset):
                     skip_validation=True,
                     ignore_check=True,
                 )
-                archived.append(dataset)
+                org_archived.append(dataset)
             else:
-                not_archived.append(dataset)
-        logger.info(f"{org_name}: {len(archived)} datasets archived!\n")
-        logger.info(f"{org_name}: {len(not_archived)} datasets not archived!\n")
-        logger.info(f"{org_name}: {len(already_archived)} datasets already archived!\n")
+                org_not_archived.append(dataset)
+        logger.info(f"{org_name}: {len(org_archived)} datasets archived!\n")
+        logger.info(f"{org_name}: {len(org_not_archived)} datasets not archived!\n")
+        logger.info(
+            f"{org_name}: {len(org_already_archived)} datasets already archived!\n"
+        )
+        archived.extend(org_archived)
+        not_archived.extend(org_not_archived)
+        already_archived.extend(org_already_archived)
     return archived, not_archived, already_archived
