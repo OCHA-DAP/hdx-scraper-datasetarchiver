@@ -11,7 +11,7 @@ configured organisation, searches HDX for datasets belonging to it and marks any
 dataset as `archived` via the CKAN API. Currently configured for the `advanced-disaster-analysis-mapping`
 (WFP ADAM), `unosat`, `philsa`, and `earth-observatory-of-singapore-remote-sensing-lab` organisations, archiving datasets
 whose `data_update_frequency` is `-1` (ADAM, UNOSAT) or `-2` (PhilSA, EOS)
-and whose `last_modified` is more than 6 months old.
+and whose `last_modified` is more than 6 months old (3 months for ADAM).
 
 ## Architecture
 

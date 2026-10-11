@@ -97,14 +97,14 @@ class TestDataset:
                 {
                     "name": "wfp-adam-test-recent",
                     "title": "wfp adam test recent",
-                    "last_modified": "2023-04-12T00:00:00",
+                    "last_modified": "2023-07-12T00:00:00",
                     "data_update_frequency": "-1",
                     "archived": False,
                 },
                 {
                     "name": "wfp-adam-test-should_archive",
                     "title": "wfp adam test old",
-                    "last_modified": "2022-03-02T00:00:00",
+                    "last_modified": "2023-07-11T00:00:00",
                     "data_update_frequency": "-1",
                     "archived": False,
                 },

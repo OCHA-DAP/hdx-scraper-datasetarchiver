@@ -3,7 +3,7 @@ orgs:
     data_update_frequency: "-1"
     before:
       last_modified:
-        months: 6
+        months: 3
   unosat:
     data_update_frequency: "-1"
     before:
