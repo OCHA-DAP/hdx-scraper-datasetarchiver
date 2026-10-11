@@ -9,8 +9,9 @@ This pipeline archives stale HDX datasets. It reads a per-organisation configura
 value and a `before` clause (fields that must be older than a given relative date) — and, for each
 configured organisation, searches HDX for datasets belonging to it and marks any matching, not-yet-archived
 dataset as `archived` via the CKAN API. Currently configured for the `advanced-disaster-analysis-mapping`
-(WFP ADAM), `unosat`, and `philsa` organisations, archiving datasets whose `data_update_frequency` is `-1`
-and whose `last_modified` is more than 6 months old.
+(WFP ADAM), `unosat`, `philsa`, and `earth-observatory-of-singapore-remote-sensing-lab` organisations, archiving datasets
+whose `data_update_frequency` is `-1` (ADAM, UNOSAT) or `-2` (PhilSA, EOS)
+and whose `last_modified` is more than 6 months old (3 months for ADAM).
 
 ## Architecture
 

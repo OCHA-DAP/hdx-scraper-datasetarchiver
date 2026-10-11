@@ -75,19 +75,36 @@ class TestDataset:
                     "archived": False,
                 },
             ]
+        elif "earth-observatory-of-singapore" in fq:
+            datasets = [
+                {
+                    "name": "eos-rs-test-recent",
+                    "title": "eos rs test recent",
+                    "last_modified": "2023-10-10T00:00:00",
+                    "data_update_frequency": "-2",
+                    "archived": False,
+                },
+                {
+                    "name": "eos-rs-test-should_archive",
+                    "title": "eos rs test old",
+                    "last_modified": "2023-04-11T00:00:00",
+                    "data_update_frequency": "-2",
+                    "archived": False,
+                },
+            ]
         else:
             datasets = [
                 {
                     "name": "wfp-adam-test-recent",
                     "title": "wfp adam test recent",
-                    "last_modified": "2023-04-12T00:00:00",
+                    "last_modified": "2023-07-12T00:00:00",
                     "data_update_frequency": "-1",
                     "archived": False,
                 },
                 {
                     "name": "wfp-adam-test-should_archive",
                     "title": "wfp adam test old",
-                    "last_modified": "2022-03-02T00:00:00",
+                    "last_modified": "2023-07-11T00:00:00",
                     "data_update_frequency": "-1",
                     "archived": False,
                 },
