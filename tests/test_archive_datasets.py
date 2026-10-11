@@ -75,6 +75,23 @@ class TestDataset:
                     "archived": False,
                 },
             ]
+        elif "earth-observatory-of-singapore" in fq:
+            datasets = [
+                {
+                    "name": "eos-rs-test-recent",
+                    "title": "eos rs test recent",
+                    "last_modified": "2023-10-10T00:00:00",
+                    "data_update_frequency": "-2",
+                    "archived": False,
+                },
+                {
+                    "name": "eos-rs-test-should_archive",
+                    "title": "eos rs test old",
+                    "last_modified": "2023-04-11T00:00:00",
+                    "data_update_frequency": "-2",
+                    "archived": False,
+                },
+            ]
         else:
             datasets = [
                 {
