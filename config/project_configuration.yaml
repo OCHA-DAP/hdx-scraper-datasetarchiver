@@ -1,5 +1,5 @@
 orgs:
-  advanced-disaster-analysis-mapping:
+  automated-disaster-analysis-mapping:
     data_update_frequency: "-1"
     before:
       last_modified:
