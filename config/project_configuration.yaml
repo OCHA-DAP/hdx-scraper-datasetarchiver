@@ -2,20 +2,20 @@ orgs:
   advanced-disaster-analysis-mapping:
     data_update_frequency: "-1"
     before:
-      last_modified:
+      dataset_date:
         months: 3
   unosat:
     data_update_frequency: "-1"
     before:
-      last_modified:
-        months: 6
+      dataset_date:
+        months: 3
   philsa:
     data_update_frequency: "-2"
     before:
-      last_modified:
-        months: 6
+      dataset_date:
+        months: 3
   earth-observatory-of-singapore-remote-sensing-lab:
     data_update_frequency: "-2"
     before:
-      last_modified:
-        months: 6
+      dataset_date:
+        months: 3

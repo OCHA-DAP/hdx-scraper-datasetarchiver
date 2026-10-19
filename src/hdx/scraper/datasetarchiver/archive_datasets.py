@@ -1,6 +1,7 @@
 import logging
 
 from dateutil.relativedelta import relativedelta
+from hdx.api.utilities.date_helper import DateHelper
 from hdx.data.dataset import Dataset
 from hdx.utilities.dateparse import parse_date
 
@@ -31,8 +32,14 @@ def archive(configuration, today, DatasetCls=Dataset):
             for field_name, match_value in fields_to_match.items():
                 if field_name == "before":
                     for field_name, match_value in fields_to_match["before"].items():
-                        field_value = parse_date(dataset[field_name])
-                        if field_value >= match_value:
+                        if field_name == "dataset_date":
+                            time_period = DateHelper.get_time_period_info(
+                                dataset[field_name], today=today
+                            )
+                            field_value = time_period.get("enddate")
+                        else:
+                            field_value = parse_date(dataset[field_name])
+                        if field_value is None or field_value >= match_value:
                             match = False
                             break
                     continue
