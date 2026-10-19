@@ -17,6 +17,9 @@ def archive(configuration, today, DatasetCls=Dataset):
         org_not_archived = []
         org_archived = []
         logger.info(f"Organisation: {org_name}\n")
+        set_update_frequency_never = fields_to_match.pop(
+            "set_update_frequency_never", False
+        )
         for name in fields_to_match:
             if name == "before":
                 for field_name, match_value in fields_to_match["before"].items():
@@ -54,6 +57,8 @@ def archive(configuration, today, DatasetCls=Dataset):
                     f"Archiving dataset: {name} with title: {title} and url: {dataset.get_hdx_url()}"
                 )
                 dataset["archived"] = True
+                if set_update_frequency_never:
+                    dataset["data_update_frequency"] = "-1"
                 dataset.update_in_hdx(
                     operation="patch",
                     batch_mode="KEEP_OLD",

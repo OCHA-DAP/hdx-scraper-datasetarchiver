@@ -12,6 +12,8 @@ dataset as `archived` via the CKAN API. Currently configured for the `advanced-d
 (WFP ADAM), `unosat`, `philsa`, and `earth-observatory-of-singapore-remote-sensing-lab` organisations, archiving datasets
 whose `data_update_frequency` is `-1` (ADAM, UNOSAT) or `-2` (PhilSA, EOS)
 and whose `dataset_date` end date is more than 3 months old (ongoing datasets are never archived).
+PhilSA and EOS set `set_update_frequency_never: true`, which also sets archived datasets'
+`data_update_frequency` to `-1` (Never).
 
 ## Architecture
 

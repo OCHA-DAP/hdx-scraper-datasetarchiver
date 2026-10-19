@@ -152,6 +152,8 @@ class TestDatasetArchiver:
         return Configuration.read()
 
     def test_archive(self, configuration):
+        eos = "earth-observatory-of-singapore-remote-sensing-lab"
+        configuration["orgs"][eos]["set_update_frequency_never"] = False
         today = parse_date("2023-10-12")
         archived, not_archived, already_archived = archive(
             configuration, today, DatasetCls=TestDataset
@@ -159,6 +161,10 @@ class TestDatasetArchiver:
         assert len(archived) == 4
         for dataset in archived:
             assert "should_archive" in dataset["name"]
+            if "philsa" in dataset["name"]:
+                assert dataset["data_update_frequency"] == "-1"
+            elif "eos-rs" in dataset["name"]:
+                assert dataset["data_update_frequency"] == "-2"
         assert len(not_archived) == 8
         for dataset in not_archived:
             name = dataset["name"]
