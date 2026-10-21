@@ -26,6 +26,7 @@ class TestDataset:
                     "name": "unosat-test-recent",
                     "title": "unosat test recent",
                     "last_modified": "2023-10-10T00:00:00",
+                    "dataset_date": "[2023-01-01T00:00:00 TO 2023-07-12T23:59:59]",
                     "data_update_frequency": "-1",
                     "archived": False,
                 },
@@ -33,6 +34,7 @@ class TestDataset:
                     "name": "unosat-test2-recent",
                     "title": "unosat test 2 recent",
                     "last_modified": "2023-04-12T00:00:00",
+                    "dataset_date": "[2023-01-01T00:00:00 TO 2023-10-01T23:59:59]",
                     "data_update_frequency": "-1",
                     "archived": False,
                 },
@@ -40,6 +42,7 @@ class TestDataset:
                     "name": "unosat-test-should_archive",
                     "title": "unosat test old",
                     "last_modified": "2023-04-11T00:00:00",
+                    "dataset_date": "[2023-01-01T00:00:00 TO 2023-07-11T23:59:59]",
                     "data_update_frequency": "-1",
                     "archived": False,
                 },
@@ -47,7 +50,16 @@ class TestDataset:
                     "name": "unosat-test-should_not_archive",
                     "title": "unosat test old",
                     "last_modified": "2023-04-11T00:00:00",
+                    "dataset_date": "[2023-01-01T00:00:00 TO 2023-04-11T23:59:59]",
                     "data_update_frequency": "-2",
+                    "archived": False,
+                },
+                {
+                    "name": "unosat-test-ongoing",
+                    "title": "unosat test ongoing",
+                    "last_modified": "2023-04-11T00:00:00",
+                    "dataset_date": "[2020-01-01T00:00:00 TO *]",
+                    "data_update_frequency": "-1",
                     "archived": False,
                 },
             ]
@@ -57,6 +69,7 @@ class TestDataset:
                     "name": "philsa-test-recent",
                     "title": "philsa test recent",
                     "last_modified": "2023-10-10T00:00:00",
+                    "dataset_date": "[2023-07-12T00:00:00 TO 2023-07-12T23:59:59]",
                     "data_update_frequency": "-2",
                     "archived": False,
                 },
@@ -64,6 +77,7 @@ class TestDataset:
                     "name": "philsa-test-should_archive",
                     "title": "philsa test old",
                     "last_modified": "2023-04-11T00:00:00",
+                    "dataset_date": "[2023-07-11T00:00:00 TO 2023-07-11T23:59:59]",
                     "data_update_frequency": "-2",
                     "archived": False,
                 },
@@ -71,6 +85,7 @@ class TestDataset:
                     "name": "philsa-test-should_not_archive",
                     "title": "philsa test frequency mismatch",
                     "last_modified": "2023-04-11T00:00:00",
+                    "dataset_date": "[2023-04-11T00:00:00 TO 2023-04-11T23:59:59]",
                     "data_update_frequency": "-1",
                     "archived": False,
                 },
@@ -81,6 +96,7 @@ class TestDataset:
                     "name": "eos-rs-test-recent",
                     "title": "eos rs test recent",
                     "last_modified": "2023-10-10T00:00:00",
+                    "dataset_date": "[2023-07-12T00:00:00 TO 2023-07-12T23:59:59]",
                     "data_update_frequency": "-2",
                     "archived": False,
                 },
@@ -88,6 +104,7 @@ class TestDataset:
                     "name": "eos-rs-test-should_archive",
                     "title": "eos rs test old",
                     "last_modified": "2023-04-11T00:00:00",
+                    "dataset_date": "[2023-07-11T00:00:00 TO 2023-07-11T23:59:59]",
                     "data_update_frequency": "-2",
                     "archived": False,
                 },
@@ -98,6 +115,7 @@ class TestDataset:
                     "name": "wfp-adam-test-recent",
                     "title": "wfp adam test recent",
                     "last_modified": "2023-07-12T00:00:00",
+                    "dataset_date": "[2023-07-12T00:00:00 TO 2023-07-12T23:59:59]",
                     "data_update_frequency": "-1",
                     "archived": False,
                 },
@@ -105,6 +123,7 @@ class TestDataset:
                     "name": "wfp-adam-test-should_archive",
                     "title": "wfp adam test old",
                     "last_modified": "2023-07-11T00:00:00",
+                    "dataset_date": "[2023-07-11T00:00:00 TO 2023-07-11T23:59:59]",
                     "data_update_frequency": "-1",
                     "archived": False,
                 },
@@ -112,6 +131,7 @@ class TestDataset:
                     "name": "wfp-adam-test-already_archived",
                     "title": "wfp adam test old",
                     "last_modified": "2022-03-02T00:00:00",
+                    "dataset_date": "[2022-03-02T00:00:00 TO 2022-03-02T23:59:59]",
                     "data_update_frequency": "-1",
                     "archived": True,
                 },
@@ -132,14 +152,23 @@ class TestDatasetArchiver:
         return Configuration.read()
 
     def test_archive(self, configuration):
+        eos = "earth-observatory-of-singapore-remote-sensing-lab"
+        configuration["orgs"][eos]["set_update_frequency_never"] = False
         today = parse_date("2023-10-12")
         archived, not_archived, already_archived = archive(
             configuration, today, DatasetCls=TestDataset
         )
+        assert len(archived) == 4
         for dataset in archived:
             assert "should_archive" in dataset["name"]
+            if "philsa" in dataset["name"]:
+                assert dataset["data_update_frequency"] == "-1"
+            elif "eos-rs" in dataset["name"]:
+                assert dataset["data_update_frequency"] == "-2"
+        assert len(not_archived) == 8
         for dataset in not_archived:
             name = dataset["name"]
-            assert "recent" in name or "should_not_archive" in name
+            assert "recent" in name or "should_not_archive" in name or "ongoing" in name
+        assert len(already_archived) == 1
         for dataset in already_archived:
             assert "already_archived" in dataset["name"]

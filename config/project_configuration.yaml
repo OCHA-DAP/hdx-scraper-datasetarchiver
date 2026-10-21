@@ -1,21 +1,25 @@
+# Optional per org: set_update_frequency_never: true sets data_update_frequency to "-1" (Never)
+# on datasets when they are archived.
 orgs:
   automated-disaster-analysis-mapping:
     data_update_frequency: "-1"
     before:
-      last_modified:
+      dataset_date:
         months: 3
   unosat:
     data_update_frequency: "-1"
     before:
-      last_modified:
-        months: 6
+      dataset_date:
+        months: 3
   philsa:
     data_update_frequency: "-2"
+    set_update_frequency_never: true
     before:
-      last_modified:
-        months: 6
+      dataset_date:
+        months: 3
   earth-observatory-of-singapore-remote-sensing-lab:
     data_update_frequency: "-2"
+    set_update_frequency_never: true
     before:
-      last_modified:
-        months: 6
+      dataset_date:
+        months: 3
